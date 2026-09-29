@@ -1,0 +1,89 @@
+{
+  "$comment": "Engine demo in Slovak: compare, steps, bullets with icons, tip. Not a reference re-creation.",
+  "meta": { "lang": "sk" },
+  "title": { "number": "11", "text": "TCP a UDP: istota alebo rýchlosť" },
+  "rows": [
+    { "sections": [ { "component": "goal", "variant": "goal", "lead": "Cieľ:", "text": "Vedieť, kedy aplikácia potrebuje TCP a kedy jej stačí UDP." } ] },
+    {
+      "sections": [
+        {
+          "component": "scene",
+          "label": "Analógia: doporučený list a pohľadnica",
+          "role": "example",
+          "scenarios": [
+            {
+              "title": "Doporučený list: potvrdené doručenie",
+              "role": "info",
+              "actors": [
+                { "person": { "holding": "sealed-envelope" }, "says": "Doporučene, prosím.", "name": "Odosielateľ" },
+                { "icon": "sealed-envelope", "name": "Pošta", "caption": "eviduje zásielku" },
+                { "person": { "hair": "long", "hairTone": "brown" }, "says": "Prevzaté, podpisujem.", "name": "Adresát" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "label": "list" }, { "dir": "left", "line": "dashed", "label": "podací lístok" } ] },
+                { "arrows": [ { "dir": "right", "label": "doručenie" }, { "dir": "left", "line": "dashed", "label": "podpis adresáta" } ] }
+              ]
+            },
+            {
+              "title": "Pohľadnica: pošli a dúfaj",
+              "role": "action",
+              "actors": [
+                { "person": { "hair": "curly", "skin": "tan", "shirt": "action", "pose": "waving", "holding": "postcard" }, "says": "Ahoj z hôr!", "name": "Odosielateľ" },
+                { "icon": "postcard", "name": "Pohľadnica", "caption": "nikto ju neeviduje" },
+                { "icon": "home", "name": "Schránka", "caption": "príde, alebo nepríde" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "kind": "neutral", "label": "hodí do schránky" } ] },
+                { "arrows": [ { "dir": "right", "kind": "neutral", "label": "bez potvrdenia" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "compare",
+          "label": "Tá istá myšlienka v sieti",
+          "role": "info",
+          "a": { "heading": "TCP = doporučený list", "icon": "sealed-envelope", "role": "info" },
+          "b": { "heading": "UDP = pohľadnica", "icon": "postcard", "role": "action" },
+          "rows": [
+            { "aspect": "Spojenie", "a": "najprv trojcestný handshake (SYN, SYN-ACK, ACK)", "b": "žiadne, datagram letí hneď" },
+            { "aspect": "Straty", "a": "stratené segmenty pošle znova", "b": "stratu rieši aplikácia, ak vôbec" },
+            { "aspect": "Poradie", "a": "doručí bajty v správnom poradí", "b": "poradie nezaručuje" },
+            { "aspect": "Príklady", "a": "HTTP/1.1 a HTTP/2, SSH (22), SMTP (25)", "b": "DNS (53), hlasové hovory, HTTP/3 cez QUIC" }
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [1, 1],
+      "sections": [
+        {
+          "component": "steps",
+          "label": "Trojcestný handshake (TCP)",
+          "role": "concept",
+          "items": [
+            { "heading": "SYN", "text": "Klient: chcem sa spojiť, moje číslo je x.", "icon": "laptop" },
+            { "heading": "SYN-ACK", "text": "Server: súhlasím, beriem x, moje číslo je y.", "icon": "server" },
+            { "heading": "ACK", "text": "Klient: beriem y, môžeme posielať dáta.", "icon": "check" }
+          ]
+        },
+        {
+          "component": "command",
+          "label": "Over si to sám",
+          "role": "detail",
+          "items": [
+            { "lines": ["ss -tln"], "note": "počúvajúce TCP porty (-t TCP, -l počúva, -n čísla)" },
+            { "lines": ["ss -uln"], "note": "to isté pre UDP" },
+            { "lines": ["dig example.com"], "note": "DNS dotaz, štandardne cez UDP na port 53" }
+          ]
+        }
+      ]
+    },
+    { "sections": [ { "component": "callout", "variant": "tip", "lead": "Tip:", "text": "Keď neskoré dáta nemajú cenu (hlas, video, hra), UDP býva lepšia voľba. Oneskorený paket je horší ako stratený." } ] },
+    { "sections": [ { "component": "callout", "variant": "remember", "lead": "Zapamätaj si:", "text": "TCP stráži každý bajt, UDP šetrí čas. Vyber podľa toho, čo aplikácia nesmie stratiť." } ] }
+  ]
+}

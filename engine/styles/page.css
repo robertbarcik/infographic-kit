@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Page frame, paper, typography, section shell. Sizes in rem (1rem = 18px*k).
+   ========================================================================== */
+html { font-size: calc(18px * var(--k)); }
+html, body { margin: 0; padding: 0; background: var(--paper); }
+body { width: var(--page-w); height: var(--page-h); overflow: hidden; }
+* { box-sizing: border-box; }
+
+#page {
+  --inner-h: calc(var(--page-h) - 56px);
+  position: relative;
+  width: var(--page-w);
+  height: var(--page-h);
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.17;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--paper-rule) 1.4px, transparent 1.4px),
+    linear-gradient(90deg, var(--paper-grid) 1px, transparent 1px);
+  background-size: 100% 31px, 31px 31px;
+  background-position: 0 14px, 9px 0;
+}
+#page::before { /* notebook margin line */
+  content: ''; position: absolute; top: 0; bottom: 0; left: 24px; width: 2px;
+  background: var(--paper-margin);
+}
+#grain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; opacity: 0.5; mix-blend-mode: multiply; }
+@media print { #grain { display: none; } } /* a filter would be rasterized into a 10 MB PDF */
+#ink { position: absolute; left: 0; top: 0; width: var(--page-w); height: var(--page-h); z-index: 0; overflow: visible; }
+
+#content {
+  position: absolute; z-index: 1;
+  left: 42px; right: 36px; top: 26px; height: var(--inner-h);
+  display: flex; flex-direction: column;
+}
+#rows { flex: 1 1 auto; display: flex; flex-direction: column; gap: calc(var(--gap-row) * var(--vs)); min-height: 0; }
+.row { display: grid; gap: var(--gap-col); align-items: stretch; min-height: 0; }
+.stack { display: flex; flex-direction: column; gap: calc(var(--gap-row) * var(--vs)); min-width: 0; min-height: 0; }
+.stack > .sec { flex: 1 1 auto; }
+
+/* natural state used while measuring */
+#page.natural #content { height: auto; }
+#page.natural #rows { flex: none; }
+#page.natural .row { flex: none !important; }
+
+/* ---- title ---- */
+.title-block { flex: none; margin: 0 0 0.55rem 0; padding: 0 8px; } /* padding: room for the tilted letters */
+.title, .subtitle {
+  margin: 0; font-family: var(--font-display); font-weight: 400; color: var(--ink-title);
+  text-transform: uppercase; line-height: 1.02; letter-spacing: 0.012em; white-space: nowrap;
+}
+.title { font-size: var(--fs-title); }
+.subtitle { font-size: var(--fs-subtitle); margin-top: 0.1rem; text-transform: none; letter-spacing: 0.01em; color: var(--ink-subtitle); }
+.title .w, .subtitle .w { display: inline-block; white-space: nowrap; }
+.title .ch, .subtitle .ch { display: inline-block; }
+
+/* ---- text ---- */
+.t { display: block; min-width: 0; overflow-wrap: normal; }
+/* bold: the handwriting fonts have one weight and synthetic bold barely shows, so draw it
+   with a thin outline in the text colour (stays vector text in the PDF) */
+b { font-weight: 400; -webkit-text-stroke: 0.05em currentColor; letter-spacing: 0.01em; }
+.nw { white-space: nowrap; }
+code {
+  font-family: inherit; color: var(--info-deep); background: rgba(75, 143, 214, 0.13);
+  border-radius: 5px; padding: 0 0.18em;
+  text-transform: none;            /* commands keep their case inside uppercase labels/headings */
+}
+.inl-arrow { display: inline-block; width: 1.15em; height: 0.62em; vertical-align: 0.05em; margin: 0 0.05em; }
+
+.blist { list-style: none; margin: 0; padding: 0; }
+.blist li { position: relative; padding-left: 1.05em; margin: 0.12rem 0; }
+.blist li::before {
+  content: ''; position: absolute; left: 0.18em; top: 0.48em; width: 0.42em; height: 0.42em; border-radius: 50%;
+  background: var(--ink);
+}
+
+/* ---- section shell ---- */
+.sec {
+  position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  padding: calc(0.5rem * var(--vs)) var(--pad-sec) calc(var(--pad-sec) * var(--vs));
+  container-type: inline-size;
+}
+.sec.no-label { padding-top: calc(var(--pad-sec) * var(--vs)); }
+/* callouts hug their content: their padding never takes part in the spacing stretch */
+.sec.comp-callout { padding-top: 0.6rem; padding-bottom: 0.6rem; }
+.sec.comp-callout:not(.no-label) { padding-top: 0.5rem; }
+/* next to a taller sibling a callout stays vertically centred instead of top-aligned */
+.sec.comp-callout .sec-body { justify-content: center; }
+.sec.comp-callout .sec-body > .callout { flex: 0 0 auto; }
+.tab {
+  align-self: flex-start; margin: 0 0 calc(0.5rem * var(--vs)) -0.1rem; padding: 0.14rem 0.7rem 0.02rem;
+  font-family: var(--font-display); font-size: var(--fs-label); line-height: 1.12;
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--ink); max-width: 100%;
+}
+.sec-body { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.sec-body > * { flex: 1 1 auto; }
+
+/* ---- roles: every drawn thing reads its colours from these ---- */
+.role-info    { --stroke: var(--info-stroke);    --wash: var(--info-wash);    --pastel: var(--info-pastel);    --soft: var(--info-soft);    --deep: var(--info-deep); }
+.role-concept { --stroke: var(--concept-stroke); --wash: var(--concept-wash); --pastel: var(--concept-pastel); --soft: var(--concept-soft); --deep: var(--concept-deep); }
+.role-example { --stroke: var(--example-stroke); --wash: var(--example-wash); --pastel: var(--example-pastel); --soft: var(--example-soft); --deep: var(--example-deep); }
+.role-action  { --stroke: var(--action-stroke);  --wash: var(--action-wash);  --pastel: var(--action-pastel);  --soft: var(--action-soft);  --deep: var(--action-deep); }
+.role-accent  { --stroke: var(--accent-stroke);  --wash: var(--accent-wash);  --pastel: var(--accent-pastel);  --soft: var(--accent-soft);  --deep: var(--accent-deep); }
+.role-detail  { --stroke: var(--detail-stroke);  --wash: var(--detail-wash);  --pastel: var(--detail-pastel);  --soft: var(--detail-soft);  --deep: var(--detail-deep); }
+.role-warning { --stroke: var(--warning-stroke); --wash: var(--warning-wash); --pastel: var(--warning-pastel); --soft: var(--warning-soft); --deep: var(--warning-deep); }
+.role-neutral { --stroke: var(--neutral-stroke); --wash: var(--neutral-wash); --pastel: var(--neutral-pastel); --soft: var(--neutral-soft); --deep: var(--neutral-deep); }

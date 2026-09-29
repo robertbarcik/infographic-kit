@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Design tokens. The ONLY place where colours, fonts and base sizes live.
+   Specs never contain any of these; they name roles ("info", "warning"...).
+   1rem = 18px * --k   (--k is the auto-fit factor, 0.90 .. 1.40, set by the engine;
+   --vs, 1 .. 1.7, then scales vertical spacing only)
+   ========================================================================== */
+:root {
+  --k: 1;
+  --vs: 1;                 /* vertical-spacing factor, 1 .. 1.7, second auto-fit stage */
+  --page-w: 1240px;
+  --page-h: 1754px;
+
+  /* ink */
+  --ink: #27303f;          /* body text, outlines of neutral things */
+  --ink-soft: #4a5566;     /* captions */
+  --ink-title: #1c4a3b;    /* hand-lettered title (dark green ink) */
+  --ink-subtitle: #3f6e5d; /* subtitle: same family, lighter, sentence case, ~58 % size */
+
+  /* paper */
+  --paper: #fbf9f2;
+  --paper-rule: rgba(110, 150, 205, 0.26);
+  --paper-grid: rgba(110, 150, 205, 0.09);
+  --paper-margin: rgba(226, 110, 110, 0.35);
+
+  /* fonts */
+  --font-display: 'IK Display', 'Patrick Hand', cursive;
+  --font-body: 'IK Body', cursive;
+
+  /* type scale (rem) */
+  --fs-title: 4.1rem;
+  --fs-subtitle: 3.05rem;
+  --fs-label: 1.42rem;     /* section label tab */
+  --fs-lead: 1.62rem;      /* callout lead word, e.g. REMEMBER: */
+  --fs-head: 1.3rem;       /* card headings */
+  --fs-body: 1.06rem;
+  --fs-small: 0.96rem;     /* captions; >= 17 px at the lowest --k (1.0) */
+  --fs-tag: 1.04rem;
+
+  /* spacing (rem) */
+  --gap-row: 0.8rem;
+  --gap-col: 0.8rem;
+  --pad-sec: 0.8rem;
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  /* outline stroke (px, used by the rough.js layer) */
+  --stroke-w: 2.6;
+  --stroke-w-thin: 1.7;
+
+  /* ---- role palette: stroke / wash (section fill) / pastel (card fill) / deep (text accent) ---- */
+  --info-stroke: #4b8fd6;    --info-wash: #f2f8fe;    --info-pastel: #d6eafb;    --info-deep: #1d4f86;
+  --concept-stroke: #4ea56b; --concept-wash: #f2faf3; --concept-pastel: #d5f0dc; --concept-deep: #1f5d36;
+  --example-stroke: #deb135; --example-wash: #fffaeb; --example-pastel: #fdefbe; --example-deep: #735309;
+  --action-stroke: #e8883a;  --action-wash: #fff5ec;  --action-pastel: #fddfc6;  --action-deep: #8a4512;
+  --accent-stroke: #df6f8b;  --accent-wash: #fdf3f6;  --accent-pastel: #fbd9e2;  --accent-deep: #8c2945;
+  --detail-stroke: #9879d2;  --detail-wash: #f7f3fe;  --detail-pastel: #e6dbf8;  --detail-deep: #4c3288;
+  --warning-stroke: #d8473a; --warning-wash: #fdf0ee; --warning-pastel: #f9d4cf; --warning-deep: #a3241a;
+  --neutral-stroke: #7d8ba0; --neutral-wash: #fdfdfb; --neutral-pastel: #eceff4; --neutral-deep: #27303f;
+
+  /* soft = between wash and pastel (inner cards) */
+  --info-soft: #e6f2fd; --concept-soft: #e6f6e9; --example-soft: #fef5d7; --action-soft: #feebdb;
+  --accent-soft: #fce7ed; --detail-soft: #efe8fb; --warning-soft: #fbe3df; --neutral-soft: #f4f6f9;
+
+  /* arrows in exchanges */
+  --arrow-request: #e0553f;
+  --arrow-response: #3b74c9;
+  --arrow-neutral: #5b6679;
+}

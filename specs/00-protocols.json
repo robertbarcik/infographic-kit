@@ -1,0 +1,80 @@
+{
+  "$comment": "Re-creation of reference/ref-protocols.png - content only; all looks come from the engine.",
+  "title": { "number": "10", "text": "Protocols: agreed rules" },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "dialogue",
+          "label": "A conversation analogy",
+          "role": "info",
+          "a": { "name": "Person A", "says": "Shall we meet at 3 pm?" },
+          "b": { "name": "Person B", "says": "Yes, at 3 pm!" },
+          "intro": "We both understand because we agree on rules:",
+          "rules": [
+            "use the same language (syntax)",
+            "know what the words mean (meaning)",
+            "take turns in the right order (order)",
+            "ask for a repeat if not understood (error handling)"
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "key", "text": "Protocols let independent devices interpret the same exchange." }
+      ]
+    },
+    {
+      "ratio": [5, 4],
+      "sections": [
+        {
+          "component": "layer-stack",
+          "label": "A layered protocol stack",
+          "role": "info",
+          "axis": { "upper": "Higher layers (closer to users)", "lower": "Lower layers (closer to hardware)" },
+          "layers": [
+            { "name": "Application", "text": "network applications (e.g. HTTP, DNS)" },
+            { "name": "Transport", "text": "end-to-end communication (e.g. TCP, UDP)" },
+            { "name": "Internet", "text": "addressing and routing (e.g. IP)" },
+            { "name": "Link", "text": "local delivery on a network (e.g. Ethernet)" },
+            { "name": "Physical", "text": "bits over a medium (wires, radio, fibre)" }
+          ]
+        },
+        {
+          "component": "key-ideas",
+          "label": "Key ideas",
+          "role": "info",
+          "items": [
+            { "icon": "document", "heading": "Syntax", "text": "Format of the data. E.g. message fields, headers, character encoding." },
+            { "icon": "speech", "heading": "Meaning", "text": "What the data represents. E.g. `GET` means \"request a web page\"." },
+            { "icon": "sequence", "heading": "Order", "text": "Steps must happen in a specific sequence. E.g. connect before sending data." },
+            { "icon": "sync", "heading": "Error handling", "text": "Detect problems and recover. E.g. checksums, timeouts, retransmission, error messages." }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "card-grid",
+          "label": "Examples of common protocols",
+          "role": "info",
+          "items": [
+            { "heading": "Ethernet", "tag": "(link layer)", "icon": "network-card", "text": "Moves frames on a local network." },
+            { "heading": "IP", "tag": "(internet layer)", "icon": "pin", "text": "Addresses packets and helps route them between networks." },
+            { "heading": "TCP", "tag": "(transport layer)", "icon": "arrows-lr", "text": "Reliable, ordered delivery with error handling (e.g. retransmits lost data)." },
+            { "heading": "UDP", "tag": "(transport layer)", "icon": "arrows-lr", "text": "Simple, best-effort delivery. No guarantee of delivery, ordering or recovery." },
+            { "heading": "DNS", "tag": "(application layer)", "icon": "globe", "text": "Translates names (e.g. example.com) to IP addresses." },
+            { "heading": "HTTP", "tag": "(application layer)", "icon": "document", "text": "Transfers web content between browsers and web servers." }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "remember", "text": "Protocols are agreements. Without them, devices could not understand each other." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "$comment": "Re-creation of reference/ref-hosts-clients.png - content only; all looks come from the engine.",
+  "title": { "number": "1", "text": "Hosts, clients, servers and peers", "subtitle": "Roles without memorizing boxes" },
+  "rows": [
+    {
+      "sections": [
+        { "component": "callout", "variant": "goal", "text": "Identify the role each host plays in one exchange and test the correct endpoint." }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "exchange",
+          "label": "Same hosts, different roles per exchange",
+          "role": "concept",
+          "scenarios": [
+            {
+              "title": "Web browsing: client -> server",
+              "a": { "icon": "laptop", "name": "Laptop", "tag": "Client", "caption": "Web browser\n(e.g. Chrome)" },
+              "b": { "icon": "server", "name": "Web server", "tag": "Server", "caption": "Web service\n(e.g. nginx, Apache)" },
+              "arrows": [
+                { "dir": "right", "label": "Request:\n`GET /index.html`" },
+                { "dir": "left", "label": "Response:\nweb page (HTML)" }
+              ]
+            },
+            {
+              "title": "Phone backup: client -> server",
+              "a": { "icon": "phone", "name": "Phone", "tag": "Client", "caption": "Backup app\n(e.g. iCloud, Google Drive)" },
+              "b": { "icon": ["laptop", "database"], "name": "Laptop", "tag": "Server", "caption": "Backup service\n(e.g. file server, sync app)" },
+              "arrows": [
+                { "dir": "right", "label": "Request:\nupload photos" },
+                { "dir": "left", "label": "Response:\nupload successful" }
+              ]
+            },
+            {
+              "title": "Peer-to-peer: both client and server",
+              "a": { "icon": "laptop", "name": "Laptop A", "tag": "Peer", "tagRole": "concept", "caption": "File sharing app\n(e.g. Syncthing)" },
+              "b": { "icon": "laptop", "name": "Laptop B", "tag": "Peer", "tagRole": "concept", "caption": "File sharing app\n(e.g. Syncthing)" },
+              "arrows": [
+                { "dir": "right", "label": "Request: ask for a file block" },
+                { "dir": "left", "label": "Response: send the file block" },
+                { "dir": "left", "kind": "request", "line": "dashed", "label": "... and later the other way ..." },
+                { "dir": "right", "kind": "response", "line": "dashed" }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": [
+            {
+              "component": "definitions",
+              "label": "Quick definitions",
+              "role": "concept",
+              "items": [
+                { "term": "Host", "text": "A network-connected system with one or more interfaces (network card, Wi-Fi, virtual)." },
+                { "term": "Client", "text": "Starts a request for a service." },
+                { "term": "Server", "text": "Listens and responds with a service." },
+                { "term": "Peer", "text": "An endpoint that acts as both client and server in the same system." }
+              ]
+            },
+            {
+              "component": "illustration",
+              "label": "A box is not a role",
+              "role": "accent",
+              "layout": "hub",
+              "nodes": [
+                { "id": "host", "icon": "laptop" },
+                { "id": "browser", "icon": "globe", "label": "Web browser\n(client)" },
+                { "id": "files", "icon": "database", "label": "File server\n(server)" }
+              ],
+              "edges": [
+                { "from": "browser", "to": "host", "kind": "request" },
+                { "from": "files", "to": "host", "kind": "response" }
+              ],
+              "text": "One physical host can run client and server processes at the same time. Roles depend on the exchange, not on the device type."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "steps",
+          "label": "Worked example: follow one exchange",
+          "role": "concept",
+          "items": [
+            { "heading": "User action", "text": "You open `https://example.com` in your browser.", "icon": "cursor" },
+            { "heading": "Client process", "text": "Web browser (client), e.g. Chrome", "icon": "browser" },
+            { "heading": "Address + port", "text": "DNS gives the server IP; HTTPS uses port **443**.", "icon": "pin" },
+            { "heading": "Server process", "text": "Web server (server), e.g. nginx", "icon": "server" },
+            { "heading": "Response", "text": "Web page data (HTML, images, CSS, etc.)", "icon": "web-page" }
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "callout",
+          "variant": "note",
+          "role": "concept",
+          "icon": "magnifier",
+          "lead": "Diagnostic habit:",
+          "text": "Name the process, direction and requested service before blaming a device.",
+          "bullets": [
+            "Which process made the request?",
+            "Is it going to a client, server or peer?",
+            "Which service and port is used?",
+            "What response do you expect?"
+          ]
+        },
+        {
+          "component": "callout",
+          "variant": "remember",
+          "text": "Client and server describe behaviour in an exchange, not permanent machine types."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "$comment": "Git branches through a family recipe book. Facts checked with git 2.54 in a throwaway repo.",
+  "title": { "number": "5", "text": "Git branches: a bookmark, not a copy", "subtitle": "Try an idea without touching what works" },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "dialogue",
+          "label": "Analogy: the family recipe book",
+          "role": "example",
+          "a": { "name": "Mila", "look": { "hair": "bun", "hairTone": "red", "shirt": "action", "pose": "waving", "holding": "bookmark" } },
+          "b": { "name": "Grandpa", "look": { "hair": "bald", "hairTone": "grey", "skin": "medium", "shirt": "info", "expression": "smile", "facing": "left", "holding": "book" } },
+          "turns": [
+            { "who": "a", "says": "I want to try the soup with chili." },
+            { "who": "b", "says": "Not in the book we all cook from!" },
+            { "who": "a", "says": "I'll use my own bookmark and new pages." },
+            { "who": "b", "says": "Fine. If it's good, we keep the pages." }
+          ],
+          "intro": "Nobody copies the book. They agree on this:",
+          "rules": [
+            "each new page says which page came before it",
+            "a bookmark only marks the page you are on",
+            "good soup: the new pages join the family book",
+            "bad soup: throw the bookmark away"
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "key", "text": "A branch is the bookmark: a name that points at one commit. Creating it copies no files." }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "compare",
+          "label": "The same story in Git",
+          "role": "info",
+          "a": { "heading": "Recipe book", "icon": "book", "role": "example" },
+          "b": { "heading": "Git", "icon": "git-branch", "role": "info" },
+          "rows": [
+            { "aspect": "Page", "a": "one written page of the book", "b": "**commit**: a snapshot of all files + a link to its parent(s)" },
+            { "aspect": "Bookmark", "a": "a small strip that marks a page", "b": "**branch**: a movable name pointing at one commit" },
+            { "aspect": "Family bookmark", "a": "the one everyone cooks from", "b": "`main`, the usual name of the default branch" },
+            { "aspect": "Your place", "a": "the bookmark you are working from", "b": "**HEAD**: points at the branch you are on" }
+          ]
+        },
+        {
+          "component": "command",
+          "label": "Look for yourself",
+          "role": "detail",
+          "items": [
+            { "lines": ["cat .git/HEAD"], "output": "ref: refs/heads/main", "note": "HEAD just names the branch you are on." },
+            { "lines": ["cat .git/refs/heads/main"], "output": "d7b9e90f1dac36702a0ff2e6c705db70c0ce6259", "note": "The whole branch: one commit ID. (Git may also pack refs into one file.)" }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "steps",
+          "label": "One experiment, start to finish",
+          "role": "action",
+          "items": [
+            { "heading": "New bookmark", "text": "`git switch -c feature`\nnew branch here, HEAD moves to it", "icon": "bookmark" },
+            { "heading": "Write pages", "text": "`git add .`\n`git commit -m \"chili\"`\nthe bookmark moves on", "icon": "commit" },
+            { "heading": "Back to family", "text": "`git switch main`\nfiles return to main's snapshot", "icon": "book" },
+            { "heading": "Join the pages", "text": "`git merge feature`\nmain now has the chili", "icon": "merge" },
+            { "heading": "Drop the bookmark", "text": "`git branch -d feature`\nrefuses if unmerged; `-D` forces", "icon": "trash" }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "commit-graph",
+          "label": "Merge, case 1: fast-forward",
+          "role": "concept",
+          "lanes": [ { "id": "main", "name": "main", "role": "info" }, { "id": "feat", "name": "feature", "role": "detail" } ],
+          "commits": [
+            { "id": "c1", "lane": "main", "label": "soup" },
+            { "id": "c2", "lane": "feat", "label": "chili", "parents": ["c1"] }
+          ],
+          "tags": [ { "name": "main", "at": "c2", "was": "c1" }, { "name": "feature", "at": "c2" } ],
+          "head": "main",
+          "text": "Main had nothing new: `main` just slides to chili. No new commit."
+        },
+        {
+          "component": "commit-graph",
+          "label": "Merge, case 2: a merge commit",
+          "role": "concept",
+          "lanes": [ { "id": "main", "name": "main", "role": "info" }, { "id": "feat", "name": "feature", "role": "detail" } ],
+          "commits": [
+            { "id": "c1", "lane": "main", "label": "soup" },
+            { "id": "c2", "lane": "main", "label": "salt" },
+            { "id": "c3", "lane": "feat", "label": "chili", "parents": ["c1"] },
+            { "id": "c4", "lane": "main", "label": "merge", "parents": ["c2", "c3"] }
+          ],
+          "tags": [ { "name": "main", "at": "c4" }, { "name": "feature", "at": "c3" } ],
+          "head": "main",
+          "text": "Both moved on: a new commit with **two parents**. See it: `git log --graph`"
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "callout",
+          "variant": "note",
+          "role": "accent",
+          "icon": "question",
+          "lead": "Conflict:",
+          "text": "Both sides changed the same lines. Git marks them with `<<<<<<<` and waits for a human to choose."
+        },
+        { "component": "callout", "variant": "remember", "text": "A branch is a bookmark on a commit, not a copy of your files. Make them freely, merge the good ones." }
+      ]
+    }
+  ]
+}

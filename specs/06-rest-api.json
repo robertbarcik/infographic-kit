@@ -1,0 +1,123 @@
+{
+  "$comment": "REST API through a restaurant: guest, waiter, kitchen. URL + methods, house rules, status codes, a sample curl.",
+  "title": { "number": "6", "text": "REST API: order from the menu, not the kitchen" },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "scene",
+          "label": "Analogy: a restaurant",
+          "role": "example",
+          "scenarios": [
+            {
+              "title": "Guest orders, kitchen cooks",
+              "role": "example",
+              "actors": [
+                { "person": { "hair": "curly", "hairTone": "red", "shirt": "info", "pose": "pointing" }, "says": "One soup, please.", "name": "Guest", "caption": "reads the menu" },
+                { "person": { "hair": "bun", "hairTone": "dark", "skin": "tan", "shirt": "neutral", "pose": "waving", "holding": "cloche" }, "name": "Waiter", "caption": "takes only orders on the menu" },
+                { "icon": "chef-hat", "name": "Kitchen", "caption": "guests never walk in" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "label": "order" }, { "dir": "left", "line": "dashed", "label": "soup, or \"sorry, sold out\"" } ] },
+                { "arrows": [ { "dir": "right", "label": "order ticket" }, { "dir": "left", "label": "dish" } ] }
+              ]
+            },
+            {
+              "title": "The same in software",
+              "role": "info",
+              "actors": [
+                { "icon": "laptop", "name": "Your app", "tag": "CLIENT", "caption": "reads the API docs" },
+                { "icon": "api", "name": "REST API", "caption": "takes only requests it lists" },
+                { "icon": ["server", "database"], "name": "Server", "tag": "SERVER", "caption": "code + database" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "label": "request:\n`POST /orders`" }, { "dir": "left", "label": "response:\n`201 Created`" } ] },
+                { "arrows": [ { "dir": "right", "label": "SQL `INSERT`" }, { "dir": "left", "label": "new row" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "key", "text": "The API is the menu: the requests a server accepts. Clients order from it, never walk into the kitchen." }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "definitions",
+          "label": "The thing and the verb",
+          "role": "info",
+          "items": [
+            { "term": "URL", "text": "Names the thing: `/orders` is the list, `/orders/42` is one order.", "role": "detail" },
+            { "term": "GET", "text": "Read. `GET /orders/42` asks what is in order 42. Nothing changes." },
+            { "term": "POST", "text": "Create. `POST /orders` with a body adds a new order. The server picks its number." },
+            { "term": "PUT", "text": "Replace. `PUT /orders/42` sends the whole order as it should look now." },
+            { "term": "PATCH", "text": "Change a part. `PATCH /orders/42` with `{\"dish\":\"salad\"}` swaps only the dish." },
+            { "term": "DELETE", "text": "Remove. `DELETE /orders/42` cancels the order." }
+          ]
+        },
+        {
+          "component": "key-ideas",
+          "label": "House rules",
+          "role": "concept",
+          "items": [
+            { "icon": "eye", "heading": "Safe", "text": "GET only looks. Asking what you ordered never changes the order." },
+            { "icon": "sync", "heading": "Idempotent", "text": "Twice ends like once. GET, PUT and DELETE are; POST is not: two POSTs, two soups." },
+            { "icon": "id-card", "heading": "Stateless", "text": "The waiter forgets you. Each request carries all it needs, even your token." }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "card-grid",
+          "label": "Status: 2xx worked, 4xx client, 5xx server",
+          "role": "neutral",
+          "variant": "compact",
+          "items": [
+            { "heading": "200", "tag": "OK", "icon": "cloche", "text": "Here is your dish: the data you asked for.", "role": "concept" },
+            { "heading": "201", "tag": "Created", "icon": "receipt", "text": "New order taken, usually after POST.", "role": "concept" },
+            { "heading": "204", "tag": "No Content", "icon": "check", "text": "Done, nothing to bring back. Common after DELETE.", "role": "concept" },
+            { "heading": "400", "tag": "Bad Request", "icon": "question", "text": "The order makes no sense: broken JSON.", "role": "example" },
+            { "heading": "401", "tag": "Unauthorized", "icon": "id-card", "text": "Despite the name: we do not know who you are.", "role": "example" },
+            { "heading": "403", "tag": "Forbidden", "icon": "lock", "text": "We know you, but you may not do this.", "role": "example" },
+            { "heading": "404", "tag": "Not Found", "icon": "magnifier", "text": "Not on the menu: no such order.", "role": "example" },
+            { "heading": "405", "tag": "Method Not Allowed", "icon": "cross", "text": "This verb is not on the menu for this URL.", "role": "example" },
+            { "heading": "429", "tag": "Too Many Requests", "icon": "hourglass", "text": "Too many orders too fast. Wait, then retry.", "role": "example" },
+            { "heading": "500", "tag": "Internal Server Error", "icon": "bug", "text": "The kitchen broke. Not your fault.", "role": "accent" }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "command",
+          "label": "Order from a terminal (sample)",
+          "role": "action",
+          "items": [
+            {
+              "lines": [
+                "curl -i -X POST https://api.example.com/orders \\",
+                "  -H \"Content-Type: application/json\" \\",
+                "  -d '{\"dish\":\"soup\"}'"
+              ],
+              "output": "HTTP/2 201   ...headers...\n{\"id\":42,\"dish\":\"soup\"}",
+              "note": "api.example.com is a placeholder. `-i` shows the status line; without it you see only the body."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "remember", "text": "Order from the menu: the URL names the thing, the method says what to do, and the status code tells you how it went." }
+      ]
+    }
+  ]
+}

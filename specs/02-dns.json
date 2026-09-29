@@ -1,0 +1,114 @@
+{
+  "$comment": "DNS page: receptionist analogy (resolver asks around: info desk -> town hall -> bakery, keeps a note for a while).",
+  "meta": { "lang": "en" },
+  "title": { "number": "2", "text": "DNS: how a name becomes an address", "subtitle": "One resolver asks around, then remembers" },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "dialogue",
+          "label": "An everyday analogy: the receptionist",
+          "role": "example",
+          "a": { "name": "You", "look": { "hair": "curly", "hairTone": "red", "skin": "light", "shirt": "info", "expression": "smile", "pose": "neutral" } },
+          "b": { "name": "Receptionist", "look": { "hair": "bun", "hairTone": "dark", "skin": "tan", "shirt": "action", "expression": "happy", "pose": "neutral", "facing": "left", "holding": "address-book" } },
+          "turns": [
+            { "who": "a", "says": "Where is Example Bakery in Oakdale?" },
+            { "who": "b", "says": "12 Mill Street. The bakery told me." },
+            { "who": "b", "says": "The next person gets it from my notes." }
+          ],
+          "intro": "The receptionist follows the same routine every time:",
+          "rules": [
+            "You ask one person. She does all the calling.",
+            "She calls the info desk, town hall, then bakery.",
+            "Only the bakery itself knows the address for sure.",
+            "Her note is good for one hour, then she asks again."
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "illustration",
+          "label": "The same routine in DNS",
+          "role": "info",
+          "layout": "fan",
+          "nodes": [
+            { "id": "laptop", "icon": "laptop", "label": "Your laptop\n(you)" },
+            { "id": "resolver", "icon": "server-rack", "label": "Resolver\n(receptionist)" },
+            { "id": "root", "icon": "globe", "label": "Root server\n(info desk)" },
+            { "id": "tld", "icon": "apartment", "label": ".com TLD server\n(town hall)" },
+            { "id": "auth", "icon": "server", "label": "ns1.example.com\n(the bakery)" }
+          ],
+          "edges": [
+            { "from": "laptop", "to": "resolver", "label": "example.com?", "back": "203.0.113.10" },
+            { "from": "resolver", "to": "root", "step": "1", "back": "ask .com" },
+            { "from": "resolver", "to": "tld", "step": "2", "back": "ask ns1" },
+            { "from": "resolver", "to": "auth", "step": "3", "back": "203.0.113.10" }
+          ],
+          "text": "Root and TLD servers only point onward. The resolver makes every call."
+        },
+        {
+          "component": "key-ideas",
+          "label": "Her notes: cache and TTL",
+          "role": "concept",
+          "items": [
+            { "icon": "lightning", "heading": "Cache hit", "text": "Same name again? The resolver answers from memory, with no calls at all." },
+            { "icon": "clock", "heading": "TTL", "text": "Time to live, in seconds, set by the zone owner. 3600 is her one-hour note." },
+            { "icon": "hourglass", "heading": "Why changes lag", "text": "Change a record and old copies stay in caches until their TTL runs out." },
+            { "icon": "book", "heading": "Many notebooks", "text": "Your browser and operating system keep their own copies too." }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "card-grid",
+          "label": "What the bakery can answer: record types",
+          "role": "detail",
+          "variant": "compact",
+          "items": [
+            { "heading": "A", "tag": "name -> IPv4", "icon": "pin", "text": "www.example.com -> 203.0.113.10" },
+            { "heading": "AAAA", "tag": "name -> IPv6", "icon": "map", "text": "The same for IPv6, e.g. 2001:db8::10." },
+            { "heading": "CNAME", "tag": "alias", "icon": "link", "text": "An alias for another name. It can hold no other record types." },
+            { "heading": "MX", "tag": "mail", "icon": "envelope", "text": "Which servers take mail. The lower number is tried first." },
+            { "heading": "TXT", "tag": "free text", "icon": "document", "text": "Notes for machines: SPF mail rules, domain ownership checks." },
+            { "heading": "NS", "tag": "name servers", "icon": "signpost", "text": "The zone's authoritative servers. The TLD hands these out." }
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "command",
+          "label": "Try it in a terminal",
+          "role": "action",
+          "items": [
+            { "lines": ["dig example.com"], "note": "Asks your resolver. The number after the name is the TTL left. Windows has `nslookup` for this." },
+            { "lines": ["dig +trace example.com"], "note": "Walks root -> TLD -> authoritative by itself, like the receptionist." }
+          ]
+        },
+        {
+          "component": "callout",
+          "variant": "note",
+          "lead": "Port 53:",
+          "icon": "port",
+          "text": "DNS servers listen on port 53, for both UDP and TCP.",
+          "bullets": [
+            "**UDP**: everyday lookups, one packet each way",
+            "**TCP**: answers too big for UDP, and zone copies"
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "remember", "text": "You ask one resolver. It asks root, TLD and the authoritative server, then keeps the answer until the TTL runs out." }
+      ]
+    }
+  ]
+}

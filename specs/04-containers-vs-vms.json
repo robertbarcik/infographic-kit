@@ -1,0 +1,119 @@
+{
+  "$comment": "Containers vs virtual machines. Analogy: detached house vs flat in one building. Round 2: fewer sections, buildings shown, bracket + command.",
+  "meta": { "lang": "en" },
+  "title": { "number": "4", "text": "Containers vs VMs: flats or houses", "subtitle": "Both keep apps apart. They share different things." },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "scene",
+          "label": "Analogy: a house and a flat",
+          "role": "example",
+          "scenarios": [
+            {
+              "role": "example",
+              "actors": [
+                { "person": { "hair": "bun", "hairTone": "red", "shirt": "info" }, "says": "My own boiler. It takes a while to heat.", "name": "Vera" },
+                { "icon": "house", "name": "Detached house", "caption": "own foundations,\nown boiler" },
+                { "icon": "apartment", "name": "Block of flats", "caption": "one shared boiler,\na locked door per flat" },
+                { "person": { "hair": "curly", "skin": "tan", "shirt": "action", "facing": "left", "holding": "key" }, "says": "Heating is already on. I just walk in.", "name": "Tom" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "kind": "neutral", "label": "lives in" } ] },
+                { "versus": "or" },
+                { "arrows": [ { "dir": "left", "kind": "neutral", "label": "moves in" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "key", "text": "A VM pretends to be a whole computer. A container is an ordinary process, fenced off on the host." }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "layer-stack",
+          "label": "VM: a house with its own boiler",
+          "role": "info",
+          "layers": [
+            { "name": "Your app", "text": "your program and its libraries" },
+            { "name": "Guest OS", "text": "a full OS with its own kernel, e.g. Ubuntu or Windows" },
+            { "name": "Hypervisor", "text": "fakes CPU, RAM and disks for each VM (KVM, Hyper-V, ESXi)" },
+            { "name": "Hardware", "text": "the physical server" }
+          ],
+          "bracket": { "from": "Your app", "to": "Guest OS", "label": "each VM repeats these" }
+        },
+        {
+          "component": "layer-stack",
+          "label": "Container: a flat in one building",
+          "role": "concept",
+          "layers": [
+            { "name": "Your app", "text": "your program plus the files it needs, but no kernel" },
+            { "name": "Runtime", "text": "starts and fences the processes (containerd, runc)" },
+            { "name": "Host kernel", "text": "one Linux kernel for all: namespaces = walls, cgroups = meters" },
+            { "name": "Hardware", "text": "the physical server" }
+          ],
+          "bracket": { "from": "Your app", "to": "Your app", "label": "each flat has only this" }
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "compare",
+          "label": "The same idea in computers",
+          "role": "neutral",
+          "a": { "heading": "House = virtual machine", "icon": "virtual-machine", "role": "info" },
+          "b": { "heading": "Flat = container", "icon": "container", "role": "concept" },
+          "rows": [
+            { "aspect": "Boiler (kernel)", "a": "its own, inside the guest OS", "b": "the host's Linux kernel, shared by all" },
+            { "aspect": "Start-up", "a": "typically tens of seconds: a whole OS must boot", "b": "typically under a second: the kernel is already running" },
+            { "aspect": "Size", "a": "typically gigabytes", "b": "typically tens to hundreds of megabytes" },
+            { "aspect": "Isolation", "a": "stronger: a kernel bug usually stays in one VM", "b": "weaker: a kernel bug can reach every flat" },
+            { "aspect": "Other OS", "a": "a Windows VM can run on a Linux host", "b": "Linux containers need a Linux kernel" }
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "command",
+          "label": "Try it: move into a flat",
+          "role": "action",
+          "items": [
+            { "lines": ["docker run -d -p 8080:80 nginx"], "note": "starts nginx in the background; host port 8080 -> port 80 inside. Pulls the image if missing." },
+            { "lines": ["docker ps"], "note": "lists running containers: the flats someone lives in" },
+            { "lines": ["docker images"], "note": "lists images: the floor plans the flats are built from" }
+          ]
+        },
+        {
+          "component": "illustration",
+          "label": "Flats inside a house",
+          "role": "accent",
+          "layout": "row",
+          "nodes": [
+            { "id": "mac", "icon": "laptop", "label": "macOS or\nWindows" },
+            { "id": "vm", "icon": "virtual-machine", "label": "small\nLinux VM" },
+            { "id": "box", "icon": "container", "label": "Linux\ncontainers" }
+          ],
+          "edges": [
+            { "from": "mac", "to": "vm" },
+            { "from": "vm", "to": "box" }
+          ],
+          "text": "Docker Desktop runs Linux containers inside a small Linux VM. In the cloud, many containers run inside VMs too."
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "remember", "text": "A VM brings its own kernel, like a house with its own boiler. Containers share the host kernel, like flats share one boiler." }
+      ]
+    }
+  ]
+}

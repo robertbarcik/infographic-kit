@@ -1,0 +1,126 @@
+{
+  "$comment": "HTTPS / TLS as a sealed letter with an ID check instead of a postcard.",
+  "meta": { "lang": "en" },
+  "title": { "number": "3", "text": "HTTPS: a sealed letter, not a postcard" },
+  "rows": [
+    {
+      "sections": [
+        {
+          "component": "scene",
+          "label": "Analogy: postcard or sealed letter?",
+          "role": "example",
+          "scenarios": [
+            {
+              "title": "HTTP: a postcard",
+              "role": "action",
+              "actors": [
+                { "person": { "hair": "bun", "hairTone": "red", "shirt": "example", "holding": "postcard" }, "says": "My password is tulip7.", "name": "Anna" },
+                { "icon": "eavesdropper", "name": "Anyone on the way", "caption": "reads it, can even change it" },
+                { "person": { "hair": "short", "skin": "dark", "shirt": "info", "facing": "left" }, "name": "Shop" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "right", "kind": "neutral", "label": "postcard" } ] },
+                { "arrows": [ { "dir": "right", "kind": "neutral", "label": "postcard,\nmaybe altered" } ] }
+              ]
+            },
+            {
+              "title": "HTTPS: ID check first, then the letter",
+              "role": "info",
+              "actors": [
+                { "person": { "hair": "bun", "hairTone": "red", "shirt": "example", "holding": "sealed-envelope" }, "says": "Show me your ID first.", "name": "Anna" },
+                { "icon": "eavesdropper", "name": "Anyone on the way", "caption": "sees only the envelope" },
+                { "person": { "hair": "short", "skin": "dark", "shirt": "info", "pose": "waving", "holding": "passport", "facing": "left" }, "says": "Here is my passport.", "name": "Shop" }
+              ],
+              "links": [
+                { "arrows": [ { "dir": "left", "kind": "response", "line": "dashed", "label": "passport", "step": "1" }, { "dir": "right", "label": "sealed letter", "step": "2" } ] },
+                { "arrows": [ { "dir": "left", "kind": "response", "line": "dashed", "label": "passport", "step": "1" }, { "dir": "right", "label": "sealed letter", "step": "2" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "key", "text": "HTTPS is HTTP inside TLS, on port 443 instead of 80. Same letter; TLS adds the seal and the ID check." }
+      ]
+    },
+    {
+      "ratio": [1, 1],
+      "sections": [
+        {
+          "component": "key-ideas",
+          "label": "Three promises of the seal",
+          "role": "concept",
+          "items": [
+            { "icon": "sealed-envelope", "heading": "Confidentiality", "text": "Nobody on the way can read the letter." },
+            { "icon": "shield", "heading": "Integrity", "text": "A broken seal is noticed. Changed bytes fail the check." },
+            { "icon": "passport", "heading": "Authentication", "text": "The server shows its certificate, its passport." }
+          ]
+        },
+        {
+          "component": "illustration",
+          "label": "Why trust the passport?",
+          "role": "detail",
+          "layout": "row",
+          "nodes": [
+            { "id": "root", "icon": "stamp", "label": "Root CA\n(already trusted)" },
+            { "id": "mid", "icon": "certificate", "label": "Intermediate CA" },
+            { "id": "site", "icon": "passport", "label": "example.com\ncertificate" }
+          ],
+          "edges": [
+            { "from": "root", "to": "mid", "label": "signs" },
+            { "from": "mid", "to": "site", "label": "signs" }
+          ],
+          "text": "Your browser or OS trusts a short list of root CAs. No chain of signatures up to one of them: a warning page."
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "component": "steps",
+          "label": "TLS 1.3 handshake: one round trip",
+          "role": "action",
+          "items": [
+            { "heading": "ClientHello", "text": "Browser: TLS 1.3, please. Here is my key share.", "icon": "laptop" },
+            { "heading": "ServerHello", "text": "Server's key share. Both derive the same fresh secret (Diffie-Hellman).", "icon": "key-pair" },
+            { "heading": "Certificate", "text": "Sent sealed, plus a signature. Its key only signs, never encrypts.", "icon": "passport" },
+            { "heading": "Sealed data", "text": "Browser checks chain, name, signature. Then HTTP flows encrypted.", "icon": "lock" }
+          ]
+        }
+      ]
+    },
+    {
+      "ratio": [3, 2],
+      "sections": [
+        {
+          "component": "compare",
+          "label": "What a watcher still sees",
+          "role": "neutral",
+          "a": { "heading": "HTTP = postcard", "icon": "postcard", "role": "action" },
+          "b": { "heading": "HTTPS = letter", "icon": "sealed-envelope", "role": "info" },
+          "rows": [
+            { "aspect": "The letter", "a": "readable", "b": "sealed: path, cookies" },
+            { "aspect": "Recipient name", "a": "visible (Host)", "b": "usually visible (SNI)" },
+            { "aspect": "The envelope", "a": "visible", "b": "visible: IPs, timing, size" }
+          ]
+        },
+        {
+          "component": "command",
+          "label": "Look at the seal yourself",
+          "role": "info",
+          "items": [
+            { "lines": ["curl -v https://example.com"], "note": "prints the TLS version and certificate details" },
+            { "lines": ["openssl s_client \\", "  -connect example.com:443"], "note": "lists the certificate chain the server sends" }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        { "component": "callout", "variant": "remember", "text": "HTTPS seals the letter and checks the ID. The envelope is still visible." }
+      ]
+    }
+  ]
+}
