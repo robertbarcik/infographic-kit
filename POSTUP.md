@@ -17,6 +17,73 @@ out/              HTML + PNG + PDF + report z merača
 - Rovnaký spec dá vždy rovnaký obrázok (overené kontrolným súčtom).
 - Ak stránke niečo chýba, opraví sa engine pre všetky stránky. Nikdy jedna stránka ručne.
 
+## Ako sa to skladá: hybrid deterministického a stochastického systému
+
+Kit je hybrid: deterministický engine (predkreslené diely, pevné pravidlá) a stochastický
+LLM (vie vziať akúkoľvek tému). Skladá sa z troch vrstiev a hranica medzi nimi je jeden
+JSON súbor.
+
+### 1. Deterministická vrstva: engine
+
+Všetko, čo má vyzerať rovnako na každej stránke, je napísané raz v kóde:
+
+- **Assety:** vyše 100 ikon ako SVG v jednom štýle, postavička ako parametrická kresba
+  (vlasy, pleť, tričko, výraz, póza, rekvizita sú len enumy), dve písma.
+- **Komponenty:** `dialogue`, `steps`, `compare`, `command`, `commit-graph` a ďalšie.
+  Každý má v kóde schému polí, limity dĺžky textu a vykresľovanie.
+- **Štýl:** farby, hrúbky čiar, rozstupy, efekt ručnej kresby (rough.js s pevným seedom,
+  takže rovnaký vstup dá rovnaké pixely).
+- **Merač:** po vykreslení sa stránka zmeria v prehliadači. Pri pretečení, prekryve, malom
+  písme alebo zle mierenej bubline padne s chybou.
+
+Táto vrstva je čistá funkcia: JSON dnu, PNG a PDF von, bez náhody.
+
+### 2. Stochastická vrstva: LLM ako autor obsahu
+
+Model dostane tému, `AUTHORING.md` (generuje sa z enginu, takže presne popisuje, čo engine
+vie) a jednu hotovú stránku ako príklad. Jeho úlohou je vybrať komponenty, vymyslieť
+analógiu, napísať texty a vyplniť JSON:
+
+```json
+{ "component": "dialogue", "role": "example",
+  "a": { "name": "Mila", "look": { "hair": "bun", "holding": "bookmark" } },
+  "turns": [ { "who": "a", "says": "I want to try the soup with chili." } ] }
+```
+
+Tu je celá kreativita: téma, analógia, výber komponentov, text, postavička. Model ale
+nemôže napísať farbu, veľkosť písma, SVG ani HTML. Schéma to zakáže a validátor odmietne.
+Štýl sa tak nedá rozbiť, nech je téma akákoľvek.
+
+### 3. Spojivo: schéma a slučka opráv
+
+Tá istá schéma slúži trom veciam naraz: generuje sa z nej návod pre model, validuje sa ňou
+jeho výstup a engine podľa nej kreslí. Vrstvy sa preto nemôžu rozísť.
+
+Pracovná slučka:
+
+1. Model napíše JSON.
+2. Engine vyrenderuje a merač povie napríklad "bublina 3 pretečie o 2 riadky".
+3. Model skráti text (engine písmo nezmenší) a skúsi znova.
+4. Ak modelu chýba niečo, čo engine nevie (napríklad ikona poklopu na jedlo), nahlási to.
+   Oprava ide do enginu pre všetky stránky, nikdy do jednej stránky.
+
+Štvrtý bod je presne to, čo v predošlom pokuse chýbalo: agent lepil jednorazové záplaty do
+stránok. Tu má autor stránky do enginu zakázaný prístup.
+
+### Kde je ktorá inteligencia
+
+| Rozhodnutie | Kto |
+|---|---|
+| čo je na stránke, aká analógia, aký text, aké postavy | LLM |
+| ako to vyzerá, kde to stojí, akou farbou, akým písmom | kód |
+| či sa to zmestí a neprekrýva | merač (kód) |
+| či je to pravda a či to znie prirodzene | človek alebo druhý LLM, merač to nevie |
+
+Prirovnanie: noviny. Redaktor píše článok do šablóny, grafiku novín neurčuje. LLM je
+redaktor, engine je sadzba. Preto to funguje bez obrázkového modelu: obrázky nevznikajú
+generovaním pixelov, ale skladaním hotových kreslených dielov podľa toho, čo model napíše
+do JSON.
+
 ## Prečo predošlý pokus zlyhal a čo je tu inak
 
 | Problém | Riešenie v tomto kite |
