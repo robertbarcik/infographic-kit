@@ -156,18 +156,22 @@ export function characterSvg(opts = {}) {
   const hair = HAIR[o.hairTone] || HAIR.dark;
   const shirt = SHIRT[o.shirt] || SHIRT.concept;
   const flip = o.facing === 'left' ? ' transform="translate(140 0) scale(-1 1)"' : '';
+  const pose = effectivePose(o);
+  // arm seams on the torso: only the arm hanging at the side gets one; the gesturing arm
+  // (drawn separately below) replaces the seam on its side, otherwise it reads as a second arm
+  const seams = pose === 'neutral' ? 'M42 136 L44 160 M98 136 L96 160' : 'M42 136 L44 160';
   // thinking pose: arm is part of the pose, the face is always drawn un-mirrored-looking
   return `<svg class="char" viewBox="0 0 140 160" aria-hidden="true"><g${flip} stroke="${INK}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
     ${hairBack(o.hair, hair)}
     <path d="M61.5 86 V100 a8.5 5 0 0 0 17 0 V86 Z" fill="${shade}"/>
     <path d="M22 160 C22 124 36 106 57 100.5 Q70 111 83 100.5 C104 106 118 124 118 160 Z" fill="${shirt}"/>
-    
-    <path d="M42 136 L44 160 M98 136 L96 160" stroke-width="1.8" fill="none"/>
+
+    <path d="${seams}" stroke-width="1.8" fill="none"/>
     <circle cx="45.5" cy="66" r="5.5" fill="${skin}"/><circle cx="94.5" cy="66" r="5.5" fill="${skin}"/>
     <ellipse cx="70" cy="62" rx="25" ry="28" fill="${skin}"/>
     ${hairFront(o.hair, hair)}
     ${face(o.expression)}
-    ${arm(effectivePose(o), shirt, skin)}
+    ${arm(pose, shirt, skin)}
     ${prop(o, skin)}
   </g></svg>`;
 }
