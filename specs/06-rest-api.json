@@ -14,7 +14,7 @@
               "role": "example",
               "actors": [
                 { "person": { "hair": "curly", "hairTone": "red", "shirt": "info", "pose": "pointing" }, "says": "One soup, please.", "name": "Guest", "caption": "reads the menu" },
-                { "person": { "hair": "bun", "hairTone": "dark", "skin": "tan", "shirt": "neutral", "pose": "waving", "holding": "cloche" }, "name": "Waiter", "caption": "takes only orders on the menu" },
+                { "person": { "hair": "bun", "hairTone": "dark", "skin": "tan", "shirt": "neutral", "holding": "cloche" }, "name": "Waiter", "caption": "takes only orders on the menu" },
                 { "icon": "chef-hat", "name": "Kitchen", "caption": "guests never walk in" }
               ],
               "links": [

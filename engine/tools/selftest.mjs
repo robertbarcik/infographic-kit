@@ -20,7 +20,7 @@ const CASES = [
   { name: 'outside page', spec: '00-protocols', css: '.comp-card-grid{transform:translateX(120px)}', expect: 'outside-page' },
   { name: 'speech bubble on a head', spec: '00-protocols', css: '.dlg-bubbles.simple .from-a{transform:translate(-5.5rem,4rem)}', expect: 'overlap' },
   { name: 'scale floor: overflow at k=1.0', spec: '00-protocols', css: '.gc-text{padding-bottom:700px}', expect: 'page-overflow', match: /line\(s\)/ },
-  { name: 'bubble tail through a raised hand', spec: '00-protocols', css: '.person[data-person="a"] .char-part[data-part="gesture"]{left:0!important;top:0!important;width:100%!important;height:100%!important}', expect: 'tail-over-person' },
+  { name: 'bubble tail through another person', spec: '00-protocols', css: '.person[data-person="b"] .char-part[data-part="body"]{left:-400%!important;top:-100%!important;width:800%!important;height:300%!important}', expect: 'tail-over-person' },
   { name: 'bubble tail through another bubble', spec: '00-protocols', css: '.dlg-bubbles.simple .from-b{position:relative;left:-24rem;top:3.2rem;padding:3.5rem 9rem}', expect: 'tail-over-bubble' },
   { name: 'chat tail too short', spec: '05-git-branches', js: () => { window.__IK_TEST_TAIL = 6; }, expect: 'tail-too-short' },
   { name: 'chat tail points at the wrong person', spec: '05-git-branches', css: '.dlg-bubbles.chat .from-b{align-self:flex-start;max-width:30%}', expect: 'tail-wrong-speaker' },

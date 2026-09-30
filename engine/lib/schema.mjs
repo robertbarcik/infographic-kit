@@ -38,7 +38,7 @@ export const character = () => ({
   type: 'obj', required: false, doc: 'appearance of the person (all optional enums)',
   fields: {
     ...Object.fromEntries(Object.entries(CHARACTER_OPTIONS).map(([k, v]) => [k, enumOf(v)])),
-    holding: icon({ required: false, doc: 'a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"' }),
+    holding: icon({ required: false, doc: 'a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"' }),
   },
 });
 

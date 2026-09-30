@@ -96,13 +96,12 @@ core devices.
 ## 7. People (dialogue)
 
 `a.look` / `b.look` (dialogue) and `person` (scene actors) pick from these enums; defaults:
-A = short dark hair, green shirt, waving; B = long brown hair, purple shirt. Vary them across
-pages so the cast does not repeat.
+A = short dark hair, green shirt; B = long brown hair, purple shirt; both standing. Vary them
+across pages so the cast does not repeat.
 
 {{CHARACTERS}}
-- `holding`: any icon name; the person holds it in the raised hand (passport, cloche,
-  envelope, postcard, bookmark, key...). With `pose: "waving"` it is held up high. Not with
-  `pose: "thinking"`.
+- `holding`: any icon name; the person holds it up in one hand (passport, cloche,
+  envelope, postcard, bookmark, key...). Not with `pose: "thinking"`.
 - Speech bubbles: every bubble has a tail pointing at its speaker, steered around raised
   hands, props and other bubbles, and its outline takes the speaker's shirt colour, so who
   says what is clear at a glance. In a multi-turn dialogue (`turns`) the conversation sits

@@ -6,21 +6,20 @@
 //   skin:       light | medium | tan | dark
 //   shirt:      any role name (info, concept, example, action, accent, detail, warning, neutral)
 //   expression: happy | smile | neutral | surprised | thinking
-//   pose:       neutral | waving | pointing | thinking
+//   pose:       neutral | pointing | thinking
 //   facing:     right | left      (which side the gesture/gaze goes to)
-//   holding:    any icon name: a prop in the raised hand (with waving: held up high)
+//   holding:    any icon name: a prop held in one hand (not with thinking)
 // ==========================================================================
 import { iconInner } from '../icons/icons.mjs';
 
 const INK = '#27303f';
 
-/** the pose actually drawn: a prop turns neutral/pointing into "holding", waving into "raising" */
+/** the pose actually drawn: a prop turns neutral/pointing into "holding" */
 function effectivePose(o) {
-  if (!o.holding) return o.pose;
-  return o.pose === 'waving' ? 'raising' : 'holding';
+  return o.holding ? 'holding' : o.pose;
 }
 // prop placement per pose, in viewBox units: [centre x, centre y, size]
-const PROP_AT = { holding: [120, 84, 42], raising: [120, 58, 42] };
+const PROP_AT = { holding: [120, 84, 42] };
 const SKIN = { light: '#fad8b8', medium: '#efc095', tan: '#d39b69', dark: '#9b6845' };
 const SKIN_SHADE = { light: '#f0bf98', medium: '#dea577', tan: '#bb8152', dark: '#835535' };
 const HAIR = { dark: '#35302f', brown: '#7b4a2a', blonde: '#e3b453', red: '#c0582f', grey: '#a9adb4' };
@@ -35,7 +34,7 @@ export const CHARACTER_OPTIONS = {
   skin: Object.keys(SKIN),
   shirt: Object.keys(SHIRT),
   expression: ['happy', 'smile', 'neutral', 'surprised', 'thinking'],
-  pose: ['neutral', 'waving', 'pointing', 'thinking'],
+  pose: ['neutral', 'pointing', 'thinking'],
   facing: ['right', 'left'],
 };
 
@@ -103,17 +102,11 @@ function face(expression) {
 function arm(pose, shirt, skin) {
   // drawn for a figure gesturing to the viewer's right; mirrored for facing:left
   switch (pose) {
-    case 'waving':
-      return tube('M101 132 L113 116', shirt, 12) + tube('M113 116 L120 94', skin, 8.5) +
-        `<path d="M113.5 94 c-3 -6 -2 -13 2 -16 l1.5 -9 c.4 -2.6 4.2 -2.2 4 .5 l-.6 7.5 l2.4 -10.5 c.6 -2.6 4.4 -1.9 3.9 .8 l-1.8 10 l3.7 -8.6 c1 -2.4 4.5 -1.1 3.6 1.4 l-3.4 9 l3.8 -5.6 c1.5 -2.1 4.5 -.3 3.2 1.9 l-5.5 9 c-2.5 5 -6.5 8.5 -12 8.5 z" fill="${skin}" stroke="${INK}" stroke-width="2.1" stroke-linejoin="round"/>` +
-        `<path d="M131 60 q5 3 6 9 M136 56 q6 4 7 11" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
     case 'pointing':
       return tube('M101 134 L118 124', shirt, 12) + tube('M118 124 L128 112', skin, 8.5) +
         `<path d="M123 116 c-2 -5 1 -9 5 -9.5 l8.5 -1.5 c2.8 -.4 3.3 3.6 .5 4 l-6 1.2 c3 1 4 3.5 3 6.5 c-1 3.4 -4.4 4.8 -7.6 3.8 z" fill="${skin}" stroke="${INK}" stroke-width="2.1" stroke-linejoin="round"/>`;
     case 'holding':
       return tube('M101 134 L112 124', shirt, 12) + tube('M112 124 L118 108', skin, 8.5);
-    case 'raising':
-      return tube('M101 132 L113 118', shirt, 12) + tube('M113 118 L119 86', skin, 8.5);
     case 'thinking':
       return tube('M117 166 Q112 146 97 139', shirt, 12.5) + tube('M94 139 L83 99', skin, 8.5) +
         `<path d="M92 133.5 L96.5 145" stroke="${INK}" stroke-width="2" fill="none"/>` +
@@ -137,11 +130,9 @@ export function characterParts(opts = {}) {
   if (o.hair === 'bun') parts.push([58, 15, 24, 20]);
   const pose = effectivePose(o);
   const gesture = [];
-  if (pose === 'waving') gesture.push([104, 54, 36, 84]);
   if (pose === 'pointing') gesture.push([98, 104, 42, 36]);
   if (pose === 'thinking') gesture.push([74, 88, 48, 72]);
   if (pose === 'holding') gesture.push([100, 100, 28, 40]);
-  if (pose === 'raising') gesture.push([100, 76, 28, 64]);
   if (PROP_AT[pose]) { const [cx, cy, s] = PROP_AT[pose]; gesture.push([cx - s / 2, cy - s / 2, s, s]); }
   const all = parts.map((p) => [...p, 'body']).concat(gesture.map((p) => [...p, 'gesture']));
   return o.facing === 'left' ? all.map(([x, y, w, h, k]) => [140 - x - w, y, w, h, k]) : all;

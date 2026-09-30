@@ -131,9 +131,9 @@ the everyday analogy: two people with speech bubbles (one line each, or 2-4 numb
             skin: light | medium | tan | dark (optional)
             shirt: info | concept | example | action | accent | detail | warning | neutral (optional)
             expression: happy | smile | neutral | surprised | thinking (optional)
-            pose: neutral | waving | pointing | thinking (optional)
+            pose: neutral | pointing | thinking (optional)
             facing: right | left (optional)
-            holding: icon name (optional) - a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"
+            holding: icon name (optional) - a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"
           }
       }
     b: { - person on the right
@@ -145,9 +145,9 @@ the everyday analogy: two people with speech bubbles (one line each, or 2-4 numb
             skin: light | medium | tan | dark (optional)
             shirt: info | concept | example | action | accent | detail | warning | neutral (optional)
             expression: happy | smile | neutral | surprised | thinking (optional)
-            pose: neutral | waving | pointing | thinking (optional)
+            pose: neutral | pointing | thinking (optional)
             facing: right | left (optional)
-            holding: icon name (optional) - a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"
+            holding: icon name (optional) - a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"
           }
       }
     turns: list of 2-4 (optional) - a short exchange instead of a.says/b.says; shown as numbered bubbles in order, each: {
@@ -180,9 +180,9 @@ who sends what to whom: 2-4 actors (icons or drawn people with speech bubbles) i
                     skin: light | medium | tan | dark (optional)
                     shirt: info | concept | example | action | accent | detail | warning | neutral (optional)
                     expression: happy | smile | neutral | surprised | thinking (optional)
-                    pose: neutral | waving | pointing | thinking (optional)
+                    pose: neutral | pointing | thinking (optional)
                     facing: right | left (optional)
-                    holding: icon name (optional) - a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"
+                    holding: icon name (optional) - a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"
                   }
                 says: text <= 40 chars (optional) - speech bubble above a person (person actors only)
                 name: text <= 20 chars - e.g. "Laptop", "Sender"
@@ -198,9 +198,9 @@ who sends what to whom: 2-4 actors (icons or drawn people with speech bubbles) i
                     skin: light | medium | tan | dark (optional)
                     shirt: info | concept | example | action | accent | detail | warning | neutral (optional)
                     expression: happy | smile | neutral | surprised | thinking (optional)
-                    pose: neutral | waving | pointing | thinking (optional)
+                    pose: neutral | pointing | thinking (optional)
                     facing: right | left (optional)
-                    holding: icon name (optional) - a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"
+                    holding: icon name (optional) - a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"
                   }
                 says: text <= 40 chars (optional) - speech bubble above a person (person actors only)
                 name: text <= 20 chars - e.g. "Laptop", "Sender"
@@ -223,9 +223,9 @@ who sends what to whom: 2-4 actors (icons or drawn people with speech bubbles) i
                         skin: light | medium | tan | dark (optional)
                         shirt: info | concept | example | action | accent | detail | warning | neutral (optional)
                         expression: happy | smile | neutral | surprised | thinking (optional)
-                        pose: neutral | waving | pointing | thinking (optional)
+                        pose: neutral | pointing | thinking (optional)
                         facing: right | left (optional)
-                        holding: icon name (optional) - a prop in the raised hand, any icon name (e.g. passport, cloche, envelope); with pose "waving" it is held up high; not with "thinking"
+                        holding: icon name (optional) - a prop held in one hand, any icon name (e.g. passport, cloche, envelope); not with "thinking"
                       }
                     says: text <= 40 chars (optional) - speech bubble above a person (person actors only)
                     name: text <= 20 chars - e.g. "Laptop", "Sender"
@@ -514,19 +514,18 @@ core devices.
 ## 7. People (dialogue)
 
 `a.look` / `b.look` (dialogue) and `person` (scene actors) pick from these enums; defaults:
-A = short dark hair, green shirt, waving; B = long brown hair, purple shirt. Vary them across
-pages so the cast does not repeat.
+A = short dark hair, green shirt; B = long brown hair, purple shirt; both standing. Vary them
+across pages so the cast does not repeat.
 
 - `hair`: short | long | curly | bun | bald (default `short`)
 - `hairTone`: dark | brown | blonde | red | grey (default `dark`)
 - `skin`: light | medium | tan | dark (default `light`)
 - `shirt`: info | concept | example | action | accent | detail | warning | neutral (default `concept`)
 - `expression`: happy | smile | neutral | surprised | thinking (default `happy`)
-- `pose`: neutral | waving | pointing | thinking (default `neutral`)
+- `pose`: neutral | pointing | thinking (default `neutral`)
 - `facing`: right | left (default `right`)
-- `holding`: any icon name; the person holds it in the raised hand (passport, cloche,
-  envelope, postcard, bookmark, key...). With `pose: "waving"` it is held up high. Not with
-  `pose: "thinking"`.
+- `holding`: any icon name; the person holds it up in one hand (passport, cloche,
+  envelope, postcard, bookmark, key...). Not with `pose: "thinking"`.
 - Speech bubbles: every bubble has a tail pointing at its speaker, steered around raised
   hands, props and other bubbles, and its outline takes the speaker's shirt colour, so who
   says what is clear at a glance. In a multi-turn dialogue (`turns`) the conversation sits

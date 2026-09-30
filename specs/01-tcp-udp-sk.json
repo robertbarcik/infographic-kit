@@ -28,7 +28,7 @@
               "title": "Pohľadnica: pošli a dúfaj",
               "role": "action",
               "actors": [
-                { "person": { "hair": "curly", "skin": "tan", "shirt": "action", "pose": "waving", "holding": "postcard" }, "says": "Ahoj z hôr!", "name": "Odosielateľ" },
+                { "person": { "hair": "curly", "skin": "tan", "shirt": "action", "holding": "postcard" }, "says": "Ahoj z hôr!", "name": "Odosielateľ" },
                 { "icon": "postcard", "name": "Pohľadnica", "caption": "nikto ju neeviduje" },
                 { "icon": "home", "name": "Schránka", "caption": "príde, alebo nepríde" }
               ],

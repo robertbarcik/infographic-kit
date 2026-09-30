@@ -8,7 +8,7 @@
           "component": "dialogue",
           "label": "Analogy: the family recipe book",
           "role": "example",
-          "a": { "name": "Mila", "look": { "hair": "bun", "hairTone": "red", "shirt": "action", "pose": "waving", "holding": "bookmark" } },
+          "a": { "name": "Mila", "look": { "hair": "bun", "hairTone": "red", "shirt": "action", "holding": "bookmark" } },
           "b": { "name": "Grandpa", "look": { "hair": "bald", "hairTone": "grey", "skin": "medium", "shirt": "info", "expression": "smile", "facing": "left", "holding": "book" } },
           "turns": [
             { "who": "a", "says": "I want to try the soup with chili." },

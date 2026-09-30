@@ -3,7 +3,7 @@ import { text, optText, list, obj, enumOf, character } from '../lib/schema.mjs';
 const person = (doc) => obj({ name: text(18), says: optText(42, { doc: 'one line of speech; omit when using "turns"' }), look: character() }, { doc });
 
 const DEFAULT_LOOK = {
-  a: { hair: 'short', hairTone: 'dark', skin: 'light', shirt: 'concept', expression: 'happy', pose: 'waving', facing: 'right' },
+  a: { hair: 'short', hairTone: 'dark', skin: 'light', shirt: 'concept', expression: 'happy', pose: 'neutral', facing: 'right' },
   b: { hair: 'long', hairTone: 'brown', skin: 'light', shirt: 'detail', expression: 'happy', pose: 'neutral', facing: 'left' },
 };
 

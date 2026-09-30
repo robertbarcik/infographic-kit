@@ -43,15 +43,15 @@ try {
     for (const pose of CHARACTER_OPTIONS.pose) combos.push({ pose, hair: 'short', shirt: 'concept', expression: 'happy' });
     for (const hair of CHARACTER_OPTIONS.hair) combos.push({ hair, pose: 'neutral', shirt: 'detail', expression: 'smile' });
     for (const expression of CHARACTER_OPTIONS.expression) combos.push({ expression, hair: 'long', hairTone: 'brown', shirt: 'info' });
-    for (const skin of CHARACTER_OPTIONS.skin) combos.push({ skin, hair: 'curly', hairTone: 'dark', shirt: 'action', pose: 'waving' });
+    for (const skin of CHARACTER_OPTIONS.skin) combos.push({ skin, hair: 'curly', hairTone: 'dark', shirt: 'action', pose: 'neutral' });
     for (const hairTone of CHARACTER_OPTIONS.hairTone) combos.push({ hairTone, hair: 'bun', shirt: 'accent', pose: 'pointing' });
-    combos.push({ pose: 'waving', facing: 'left', hair: 'long', shirt: 'example' });
+    combos.push({ pose: 'thinking', facing: 'left', hair: 'long', shirt: 'example' });
     combos.push({ pose: 'pointing', facing: 'left', hair: 'short', shirt: 'warning' });
     combos.push({ holding: 'passport', hair: 'short', shirt: 'info' });
     combos.push({ holding: 'cloche', hair: 'bun', shirt: 'neutral', facing: 'left' });
-    combos.push({ holding: 'postcard', pose: 'waving', hair: 'curly', skin: 'tan', shirt: 'action' });
+    combos.push({ holding: 'postcard', hair: 'curly', skin: 'tan', shirt: 'action' });
     combos.push({ holding: 'bookmark', hair: 'long', hairTone: 'red', shirt: 'detail' });
-    combos.push({ holding: 'sealed-envelope', pose: 'waving', facing: 'left', hair: 'bald', skin: 'dark', shirt: 'concept' });
+    combos.push({ holding: 'sealed-envelope', facing: 'left', hair: 'bald', skin: 'dark', shirt: 'concept' });
     const cells = combos.map((c) => `<div class="cell">${characterSvg(c).replace('<svg ', '<svg width="150" height="175" ')}
       <div class="name" style="font-size:15px">${Object.entries(c).map(([k, v]) => `${k}:${v}`).join(' ')}</div></div>`).join('');
     const html = `<!doctype html><html><head>${head}</head><body>${ICON_DEFS}

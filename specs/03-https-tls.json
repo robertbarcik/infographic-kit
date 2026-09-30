@@ -29,7 +29,7 @@
               "actors": [
                 { "person": { "hair": "bun", "hairTone": "red", "shirt": "example", "holding": "sealed-envelope" }, "says": "Show me your ID first.", "name": "Anna" },
                 { "icon": "eavesdropper", "name": "Anyone on the way", "caption": "sees only the envelope" },
-                { "person": { "hair": "short", "skin": "dark", "shirt": "info", "pose": "waving", "holding": "passport", "facing": "left" }, "says": "Here is my passport.", "name": "Shop" }
+                { "person": { "hair": "short", "skin": "dark", "shirt": "info", "holding": "passport", "facing": "left" }, "says": "Here is my passport.", "name": "Shop" }
               ],
               "links": [
                 { "arrows": [ { "dir": "left", "kind": "response", "line": "dashed", "label": "passport", "step": "1" }, { "dir": "right", "label": "sealed letter", "step": "2" } ] },
